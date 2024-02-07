@@ -29,6 +29,16 @@ public class ProductRepository {
         return null;
     }
 
+    public void edit(Product currentProduct, Product editedProduct){
+        for(Product product: productData){
+            if(product.equals(currentProduct)){
+                productData.remove(product);
+                productData.add(editedProduct);
+                return;
+            }
+        }
+    }
+
     public void delete(Product product){
         productData.remove(product);
     }
