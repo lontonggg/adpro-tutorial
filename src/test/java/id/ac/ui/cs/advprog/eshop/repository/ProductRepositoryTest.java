@@ -63,4 +63,80 @@ class ProductRepositoryTest {
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testEditProduct(){
+        Product product = new Product();
+        product.setProductId("12345");
+        product.setProductName("Product");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        Product editedProduct = new Product();
+        editedProduct.setProductId("54321");
+        editedProduct.setProductName("Edited Product");
+        editedProduct.setProductQuantity(50);
+        productRepository.edit(product, editedProduct);
+
+        Iterator<Product> productIterator = productRepository.findAll();
+        assertNotNull(productRepository.findProductById(editedProduct.getProductId())); // Ensure the edited product exist in repository
+        assertNull(productRepository.findProductById(product.getProductId())); // Ensure the pre-edited product is no longer in the repository
+    }
+
+    @Test
+    void testEditNonExistingProduct(){
+        Product product = new Product();
+        product.setProductId("12345");
+        product.setProductName("Product");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        Product nonExistingProduct = new Product();
+        nonExistingProduct.setProductId("54321");
+        nonExistingProduct.setProductName("Non Existing Product");
+        nonExistingProduct.setProductQuantity(50);
+
+        Product editedNonExistingProduct = new Product();
+        editedNonExistingProduct.setProductId("99999");
+        editedNonExistingProduct.setProductName("Edited Non Existing Product");
+        editedNonExistingProduct.setProductQuantity(25);
+        productRepository.edit(nonExistingProduct, editedNonExistingProduct);
+
+        assertNull(productRepository.findProductById(editedNonExistingProduct.getProductId())); // Ensure non-existing product does not exist in the repository
+        assertNotNull(productRepository.findProductById(product.getProductId())); // Ensure unedited product still exist in the repository
+    }
+
+    @Test
+    void testDeleteProduct(){
+        Product product = new Product();
+        product.setProductId("12345");
+        product.setProductName("Product");
+        product.setProductQuantity(100);
+
+        productRepository.create(product);
+        productRepository.delete(product);
+
+        Iterator<Product> productIterator = productRepository.findAll();
+        assertNull(productRepository.findProductById(product.getProductId())); // Ensure the product no longer exist in the repository
+        assertFalse(productIterator.hasNext()); // Ensure the repository is empty
+    }
+
+    @Test
+    void testDeleteNonExistingProduct(){
+        Product product = new Product();
+        product.setProductId("12345");
+        product.setProductName("Product");
+        product.setProductQuantity(100);
+
+        Product nonExistingProduct = new Product();
+        nonExistingProduct.setProductId("54321");
+        nonExistingProduct.setProductName("Non Existing Product");
+        nonExistingProduct.setProductQuantity(50);
+
+        productRepository.create(product);
+        productRepository.delete(nonExistingProduct);
+
+        assertNotNull(productRepository.findProductById(product.getProductId())); // Ensure the non-deleted product still exist in the repository
+        assertNull(productRepository.findProductById(nonExistingProduct.getProductId())); // Ensure that the non-existent product is not in the repository
+    }
 }
