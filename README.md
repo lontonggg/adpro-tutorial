@@ -1,6 +1,10 @@
 # Reyhan Zada Virgiwibowo
 
-# 2206081723
+## 2206081723
+
+## Pemrograman Lanjut - C
+
+## <a href="https://eshop-lontonggg.koyeb.app/product/list">https://eshop-lontonggg.koyeb.app/product/list</a>
 
 <details>
 <summary><b><h2>Tutorial 1</h2></b></summary>
@@ -17,5 +21,131 @@ terhindar dari segala kemungkinan bugs dan error-error lainnya. *Code Coverage* 
 
 Pembuatan *functional test* yang baru ini menurunkan kualitas *clean code*. Hal ini disebabkan munculnya potensi repetisi dalam kode fungsi yang kita buat, terutama ketika tes ini memiliki setup procedures dan instance variables yang sama dengan tes yang sebelumnya, serta munculnya potensi untuk melanggar *Single Responsibility Principle*. Seharusnya test baru ini dapat digabungkan kedalam satu file yang sama dengan satu file *Controller* untuk memperkecil kemungkinan repetisi dan meningkatkan
 kualitas *clean code*.
+
+</details>
+
+<details>
+<summary><b><h2>Tutorial 2</h2></b></summary>
+
+## Refleksi
+
+## List dari Code Issues
+
+Dengan bantuan SonarCloud, terdapat beberapa issues yang terdeteksi dan berikut adalah list code issues yang telah saya perbaiki.
+
+### 1. Penulisan dependencies pada file build.gradle.kts
+
+SonarCloud mendeteksi bahwa penulisan dependency pada file `build.gradle.kts` berantakan dan tidak teratur. Seharusnya penulisan dependency-dependency pada file `build.gradle.kts` dikelompokkan sesuai destinationnya agar dependencies menjadi lebih readable dan maintainable. 
+
+Berikut adalah before and after dari file `build.gradle.kts` :
+
+Before :
+
+```
+dependencies{
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    compileOnly("org.projectlombok:lombok")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    annotationProcessor("org.projectlombok:lombok")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    testImplementation("org.seleniumhq.selenium:selenium-java:$seleniumJavaVersion")
+    testImplementation("io.github.bonigarcia:selenium-jupiter:$seleniumJupiterVersion")
+    testImplementation("io.github.bonigarcia:webdrivermanager:$webdrivermanagerVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+}
+```
+
+After :
+
+```
+dependencies{
+  implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+  compileOnly("org.projectlombok:lombok")
+  developmentOnly("org.springframework.boot:spring-boot-devtools")
+  annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+  annotationProcessor("org.projectlombok:lombok")
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("org.seleniumhq.selenium:selenium-java:$seleniumJavaVersion")
+  testImplementation("io.github.bonigarcia:selenium-jupiter:$seleniumJupiterVersion")
+  testImplementation("io.github.bonigarcia:webdrivermanager:$webdrivermanagerVersion")
+  testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+}
+  
+```
+
+### 2. Penggunaan anotasi `@Autowired` pada ProductController dan ProductServiceImpl
+
+SonarCloud mendeteksi bahwa terdapat field injection menggunakan anotasi `@Autowired` pada file `ProductController.java` dan `ProductServiceImpl.java`. SonarCloud tidak menyarankan menggunakan field injection. Hal tersebut disebabkan oleh munculnya kemungkinan pembuatan objek dalam keadaan tidak valid dan dapat membuat testing menjadi lebih sulit yang juga disebabkan oleh dependency yang tidak eksplisit saat menginisialisasi sebuah kelas yang menggunakan field injection. Dengan demikian, penggunaan anotasi `@Autowired` saya ubah untuk diinject ke constructor. 
+
+Berikut adalah before and after dari file `ProductController.java` :
+
+Before :
+
+```java
+...
+public class ProductController {
+  @Autowired
+  private ProductService service;
+
+...
+```
+
+After :
+
+```java
+...
+public class ProductController{
+  private final ProductService service;
+
+  @Autowired
+  public ProductController(ProductService service){
+    this.service = service;
+  }
+
+...
+```
+
+### 3. Unnecessary modifier pada interface ProductService
+
+SonarCloud juga mendeteksi bahwa terdapat unnecessary modifier pada interface ProductService. Modifier public tidak diperlukan karena dalam interface sudah secara default bersifat public. 
+
+Berikut adalah before and after dari file `ProductService.java` :
+
+Before :
+
+```java
+public interface ProductService {
+    public Product create(Product product);
+    public List<Product> findAll();
+    public Product findProductById(String id);
+    public void edit(Product currentProduct, Product editedProduct);
+    public void delete(Product product);
+}
+```
+
+After :
+
+
+```java
+public interface ProductService {
+    Product create(Product product);
+    List<Product> findAll();
+    Product findProductById(String id);
+    void edit(Product currentProduct, Product editedProduct);
+    void delete(Product product);
+}
+```
+
+Berikut adalah hasil analisis dari SonarCloud setelah memperbaiki issue-issue diatas :
+<img width="800" alt="Screenshot 2024-02-14 181010" src="https://github.com/lontonggg/adpro-tutorial/assets/124903418/fff6fa40-2171-4878-8d9c-be935a494744">
+
+## Implementasi CI/CD
+
+Menurut saya, saya telah menerapkan workflows CI/CD dengan baik pada proyek saya. Saya berhasil membuat dan menjalankan workflow pada proyek saya yaitu `ci.yml`, `scorecard.yml`, dan `sonarcloud.yml` dengan bantuan Github Actions. Workflows tersebut akan dijalankan secara otomatis ketika terjadi push atau pull request. Proses testing dalam workflow CI (Continuous Integration) ini melibatkan langkah-langkah seperti checkout code, setup Java toolchain, dan eksekusi unit tests. Selain itu dengan adanya tambahan SonarCloud menghasilkan pengujian keamanan dan analisis kode yang lebih mendalam. Setelah berhasil menerapkan CI dengan baik, selanjutnya saya menerapkan CD (Continuous Deployment) dengan menggunakan `Koyeb` sebagai platform yang akan mendeploy aplikasi saya secara otomatis ketika terjadi push atau pull request.
 
 </details>
