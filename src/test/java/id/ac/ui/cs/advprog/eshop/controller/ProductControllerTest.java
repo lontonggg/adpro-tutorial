@@ -25,6 +25,8 @@ class ProductControllerTest {
 
     @InjectMocks
     ProductController productController;
+    @InjectMocks
+    HomeController homeController;
 
     @Mock
     ProductServiceImpl productService;
@@ -44,7 +46,7 @@ class ProductControllerTest {
         Mockito.when(productService.create(product)).thenReturn(product);
 
         String result = productController.createProductPost(product, model);
-        assertEquals("redirect:/product/list", result);
+        assertEquals("redirect:list", result);
     }
 
     @Test
@@ -60,7 +62,7 @@ class ProductControllerTest {
 
     @Test
     void testHomePage(){
-        String result = productController.homePage();
+        String result = homeController.homePage();
         assertEquals("homePage", result);
     }
 
@@ -105,6 +107,6 @@ class ProductControllerTest {
         product.setProductId(productId);
 
         String result = productController.delete(model, productId);
-        assertEquals("redirect:/product/list", result);
+        assertEquals("redirect:../list", result);
     }
 }
