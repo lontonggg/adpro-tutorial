@@ -2,8 +2,8 @@ package id.ac.ui.cs.advprog.eshop.repository;
 
 import java.util.Iterator;
 
-public interface Repository<T> {
-    T create(T inventory);
+public interface RepositoryInterface<T> {
+    T create(T product);
     void delete(String id);
     Iterator<T> findAll();
     T findById(String id);

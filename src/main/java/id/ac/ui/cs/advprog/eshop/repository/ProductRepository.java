@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Repository
-public class ProductRepository {
+public class ProductRepository implements RepositoryInterface<Product>{
     private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product){
@@ -20,7 +20,7 @@ public class ProductRepository {
         return productData.iterator();
     }
 
-    public Product findProductById(String id){
+    public Product findById(String id){
         for(Product product: productData){
             if(product.getProductId().equals(id)){
                 return product;
@@ -29,17 +29,20 @@ public class ProductRepository {
         return null;
     }
 
-    public void edit(Product currentProduct, Product editedProduct){
-        for(Product product: productData){
-            if(product.equals(currentProduct)){
-                productData.remove(product);
-                productData.add(editedProduct);
-                return;
+    public Product update(String id, Product editedProduct){
+        for(int i = 0; i < productData.size(); i++){
+            Product product = productData.get(i);
+            if(product.getProductId().equals(id)){
+                // Update the existing car with the new information
+                product.setProductName(editedProduct.getProductName());
+                product.setProductQuantity(editedProduct.getProductQuantity());
+                return product;
             }
         }
+        return null; // Handle the case where the product is not found
     }
 
-    public void delete(Product product){
-        productData.remove(product);
+    public void delete(String id){
+        productData.removeIf(product -> product.getProductId().equals(id));
     }
 }
