@@ -7,7 +7,7 @@
 ## <a href="https://eshop-lontonggg.koyeb.app/product/list">https://eshop-lontonggg.koyeb.app/product/list</a>
 
 <details>
-<summary><b><h2>Tutorial 1</h2></b></summary>
+<summary><b><h2>Modul 1</h2></b></summary>
 
 ## Refleksi 1
 
@@ -25,7 +25,7 @@ kualitas *clean code*.
 </details>
 
 <details>
-<summary><b><h2>Tutorial 2</h2></b></summary>
+<summary><b><h2>Modul 2</h2></b></summary>
 
 ## Refleksi
 
@@ -148,4 +148,31 @@ Berikut adalah hasil analisis dari SonarCloud setelah memperbaiki issue-issue di
 
 Menurut saya, saya telah menerapkan workflows CI/CD dengan baik pada proyek saya. Saya berhasil membuat dan menjalankan workflow pada proyek saya yaitu `ci.yml`, `scorecard.yml`, dan `sonarcloud.yml` dengan bantuan Github Actions. Workflows tersebut akan dijalankan secara otomatis ketika terjadi push atau pull request. Proses testing dalam workflow CI (Continuous Integration) ini melibatkan langkah-langkah seperti checkout code, setup Java toolchain, dan eksekusi unit tests. Selain itu dengan adanya tambahan SonarCloud menghasilkan pengujian keamanan dan analisis kode yang lebih mendalam. Setelah berhasil menerapkan CI dengan baik, selanjutnya saya menerapkan CD (Continuous Deployment) dengan menggunakan `Koyeb` sebagai platform yang akan mendeploy aplikasi saya secara otomatis ketika terjadi push atau pull request.
 
+</details>
+
+<details>
+<summary><b><h2>Modul 3</h2></b></summary>
+
+## Refleksi
+
+### Prinsip SOLID yang saya aplikasikan
+
+Pada proyek ini, saya telah mengimplementasikan `Single Responsibility Principle (SRP)`, `Open-Closed Principle (OCP)`, dan juga `Dependency Inversions Principle (DIP)`. 
+
+#### Single Responsibility Principle (SRP)
+Prinsip SRP menyatakan bahwa sebuah class atau module sebaiknya hanya memiliki satu tanggung jawab dalam sebuah class atau modul. Saya mengimplementasikan SRP dengan memisahkan `CarController` dan `ProductController` ke 2 file class yang berbeda yaitu `CarController.java` dan `ProductController.java`. 
+
+#### Open-Closed Principle (OCP)
+OCP adalah prinsip yang menyatakan bahwa suatu class harus bisa diekstensi dan tidak boleh dimodifikasi. Saya mengimplementasikan OCP dengan membuat interface `RepositoryInterface` sebagai Repository utama. Kemudian, untuk membuat repository untuk Product, Car, atau model lainnya dapat dilakukan dengan membuat class baru seperti `ProductRepository` dan `CarRepository` yang mengextends/implements `RepositoryInterface` tanpa perlu memodifikasi Repository utama. 
+
+#### Dependency Inversions Principle (DIP)
+Terakhir, DIP adalah prinsip yang menyatakan bahwa sebuah entitas itu seharusnya bergantung pada abstraksi, dan high-level module tidak boleh bergantung pada low-level module, akan tetapi bergantung kepada abstraksi. Saya mengimplementasikan DIP dengan mengubah dependency kepada repository yang digunakan pada `CarServiceImpl` dan `ProductServiceImpl` yang awalnya bergantung pada low-level module `CarRepository` dan `ProductRepository` menjadi bergantung pada high-level module yang berupa interface RepositoryInterface. Selain itu, saya juga mengimplementasikan DIP dengan mengubah `CarController` yang awalnya memiliki dependensi kepada low-level module `CarServiceImpl` menjadi dependen kepada interface `CarService`.
+
+### Kelebihan mengaplikasikan prinsip SOLID
+Salah satu kelebihan mengaplikasikan prinsip SOLID adalah memudahkan developer lain untuk melakukan development dan maintenance. Contohnya, dengan memisahkan Controller untuk Car dan Product, developer dapat melakukan development dan maintenance dengan mudah karena untuk setiap model memiliki controller yang terpisah sesuai dengan tujuan dan fungsionalitasnya masing-masing. Contoh lain, jika developer ingin membuat repository baru untuk sebuah model baru, developer dapat langsung membuat class baru yang mengimplements RepositoryInterface tanpa perlu memodifikasi Repository Utama sehingga memperkecil kemungkinan munculnya permasalahan pada repository lainnya jika terjadi error pada pembuatan repository yang baru.
+
+### Kekurangan tidak mengaplikasikan prinsip SOLID
+Kekurangan dengan tidak mengaplikasikan prinsip SOLID adalah tingginya potensi untuk terjadi permasalahan error dan sulit untuk melakukan maintenance. Misalnya, seorang developer ingin menambahkan fitur pada repository tetapi tidak mengikuti prinsip OCP dengan langsung memodifikasi file Repository utama, jika terjadi kesalahan saat modifikasi, keseluruhan repository dapat bermasalah dan membuat proyek tidak dapat berjalan. Hal ini dapat dihindari jika developer membuat class baru yang mengextend Repository utama dan membuat fitur pada class tersebut tanpa mengubah Repository utama.
+
+    
 </details>
