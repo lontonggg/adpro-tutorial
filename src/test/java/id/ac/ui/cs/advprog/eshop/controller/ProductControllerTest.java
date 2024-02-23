@@ -72,7 +72,7 @@ class ProductControllerTest {
         String productId = "123";
         product.setProductId(productId);
 
-        Mockito.when(productService.findProductById(productId)).thenReturn(product);
+        Mockito.when(productService.findById(productId)).thenReturn(product);
 
         String result = productController.editProductPage(model, productId);
         assertEquals("editProduct", result);
@@ -90,8 +90,7 @@ class ProductControllerTest {
         String editedProductId = "456";
         editedProduct.setProductId(editedProductId);
 
-        Mockito.when(productService.findProductById(productId)).thenReturn(product);
-        Mockito.doNothing().when(productService).edit(product, editedProduct);
+        Mockito.doNothing().when(productService).update(productId, editedProduct);
 
         String result = productController.editProductPost(editedProduct, model, productId);
         assertEquals("redirect:../list", result);
@@ -104,8 +103,6 @@ class ProductControllerTest {
         Product product = new Product();
         String productId = "123";
         product.setProductId(productId);
-
-        Mockito.when(productService.findProductById(productId)).thenReturn(product);
 
         String result = productController.delete(model, productId);
         assertEquals("redirect:/product/list", result);
