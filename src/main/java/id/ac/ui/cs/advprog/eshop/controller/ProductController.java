@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/product")
 public class ProductController {
 
     private final ProductService service;
@@ -20,44 +20,39 @@ public class ProductController {
         this.service = service;
     }
 
-    @GetMapping("/product/create")
+    @GetMapping("/create")
     public String createProductPage(Model model){
         Product product = new Product();
         model.addAttribute("product", product);
         return "createProduct";
     }
 
-    @PostMapping("/product/create")
+    @PostMapping("/create")
     public String createProductPost(@ModelAttribute Product product, Model model){
         service.create(product);
-        return "redirect:/product/list";
+        return "redirect:list";
     }
 
-    @GetMapping("/product/list")
+    @GetMapping("/list")
     public String productListPage(Model model){
         List<Product> allProducts = service.findAll();
         model.addAttribute("products", allProducts);
         return "productList";
     }
 
-    @GetMapping("")
-    public String homePage() {
-        return "homePage";
-    }
-
-    @GetMapping("/product/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String editProductPage(Model model, @PathVariable("id") String id){
         Product product = service.findById(id);
         model.addAttribute("product", product);
         return "editProduct";
     }
-    @GetMapping("/product/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String delete(Model model, @PathVariable("id") String id) {
         service.delete(id);
-        return "redirect:/product/list";
+        return "redirect:../list";
     }
 
-    @PostMapping("/product/edit/{id}")
+    @PostMapping("/edit/{id}")
     public String editProductPost(@ModelAttribute Product editedProduct, Model model, @PathVariable("id") String id){
         service.update(id, editedProduct);
         return "redirect:../list";
