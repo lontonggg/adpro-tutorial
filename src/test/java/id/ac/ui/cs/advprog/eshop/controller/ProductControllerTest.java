@@ -25,6 +25,8 @@ class ProductControllerTest {
 
     @InjectMocks
     ProductController productController;
+    @InjectMocks
+    HomeController homeController;
 
     @Mock
     ProductServiceImpl productService;
@@ -44,7 +46,7 @@ class ProductControllerTest {
         Mockito.when(productService.create(product)).thenReturn(product);
 
         String result = productController.createProductPost(product, model);
-        assertEquals("redirect:/product/list", result);
+        assertEquals("redirect:list", result);
     }
 
     @Test
@@ -60,7 +62,7 @@ class ProductControllerTest {
 
     @Test
     void testHomePage(){
-        String result = productController.homePage();
+        String result = homeController.homePage();
         assertEquals("homePage", result);
     }
 
@@ -72,7 +74,7 @@ class ProductControllerTest {
         String productId = "123";
         product.setProductId(productId);
 
-        Mockito.when(productService.findProductById(productId)).thenReturn(product);
+        Mockito.when(productService.findById(productId)).thenReturn(product);
 
         String result = productController.editProductPage(model, productId);
         assertEquals("editProduct", result);
@@ -90,8 +92,7 @@ class ProductControllerTest {
         String editedProductId = "456";
         editedProduct.setProductId(editedProductId);
 
-        Mockito.when(productService.findProductById(productId)).thenReturn(product);
-        Mockito.doNothing().when(productService).edit(product, editedProduct);
+        Mockito.doNothing().when(productService).update(productId, editedProduct);
 
         String result = productController.editProductPost(editedProduct, model, productId);
         assertEquals("redirect:../list", result);
@@ -105,9 +106,7 @@ class ProductControllerTest {
         String productId = "123";
         product.setProductId(productId);
 
-        Mockito.when(productService.findProductById(productId)).thenReturn(product);
-
         String result = productController.delete(model, productId);
-        assertEquals("redirect:/product/list", result);
+        assertEquals("redirect:../list", result);
     }
 }

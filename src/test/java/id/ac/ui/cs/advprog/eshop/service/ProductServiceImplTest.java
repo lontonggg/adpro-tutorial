@@ -74,9 +74,9 @@ class ProductServiceImplTest {
     void testFindProductById() {
         String productId = "123";
         Product product = new Product();
-        Mockito.when(productRepository.findProductById(productId)).thenReturn(product);
+        Mockito.when(productRepository.findById(productId)).thenReturn(product);
 
-        Product foundProduct = productService.findProductById(productId);
+        Product foundProduct = productService.findById(productId);
 
         assertEquals(product, foundProduct);
     }
@@ -86,10 +86,10 @@ class ProductServiceImplTest {
         Product product = new Product();
         product.setProductId("123");
 
-        Mockito.doNothing().when(productRepository).delete(product);
-        productService.delete(product);
+        Mockito.doNothing().when(productRepository).delete(product.getProductId());
+        productService.delete(product.getProductId());
 
-        assertNull(productService.findProductById("123"));
+        assertNull(productService.findById("123"));
     }
 
     @Test
@@ -105,10 +105,10 @@ class ProductServiceImplTest {
         editedProduct.setProductQuantity(2);
 
         Mockito.when(productRepository.create(currentProduct)).thenReturn(currentProduct);
-        Mockito.doNothing().when(productRepository).edit(currentProduct, editedProduct);
+        Mockito.when(productRepository.update(currentProduct.getProductId(), editedProduct)).thenReturn(editedProduct);
 
         productService.create(currentProduct);
-        productService.edit(currentProduct, editedProduct);
+        productService.update(currentProduct.getProductId(), editedProduct);
 
         assertNotEquals(currentProduct.getProductId(), editedProduct.getProductId());
         assertNotEquals(currentProduct.getProductName(), editedProduct.getProductName());
