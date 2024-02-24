@@ -4,7 +4,7 @@
 
 ## Pemrograman Lanjut - C
 
-## <a href="https://eshop-lontonggg.koyeb.app/product/list">https://eshop-lontonggg.koyeb.app/product/list</a>
+## <a href="https://eshop-lontonggg.koyeb.app/">https://eshop-lontonggg.koyeb.app/</a>
 
 <details>
 <summary><b><h2>Modul 1</h2></b></summary>
