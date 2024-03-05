@@ -1,12 +1,15 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
 import enums.OrderStatus;
+import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class OrderRepositoryTest {
     OrderRepository orderRepository;
@@ -59,7 +62,7 @@ class OrderRepositoryTest {
 
         Order findResult = orderRepository.findById(orders.get(1).getId());
         assertEquals(order.getId(), result.getId());
-        assertEquals(order.getId(), findResult.get());
+        assertEquals(order.getId(), findResult.getId());
         assertEquals(order.getOrderTime(), findResult.getOrderTime());
         assertEquals(order.getAuthor(), findResult.getAuthor());
         assertEquals(OrderStatus.SUCCESS.getValue(), findResult.getStatus());
