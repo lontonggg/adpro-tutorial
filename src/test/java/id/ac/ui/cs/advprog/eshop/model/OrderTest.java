@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class OrderTest {
+class OrderTest {
     private List<Product> products;
     @BeforeEach
     void setUp(){
