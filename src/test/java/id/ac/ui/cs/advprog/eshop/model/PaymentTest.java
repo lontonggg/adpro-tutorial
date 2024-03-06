@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import enums.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +72,7 @@ class PaymentTest {
     @Test
     void testSetPaymentStatusRejected(){
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b", "VOUCHER_CODE", paymentsData.get(1));
-        payment.setStatus("REJECTED");
+        payment.setStatus(PaymentStatus.REJECTED.getValue());
         assertEquals("REJECTED", payment.getStatus());
     }
 
