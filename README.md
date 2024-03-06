@@ -185,3 +185,15 @@ Menurut saya, pendekatan TTD (Test-Driven Development) memiliki banyak kelebihan
 Pada modul ini, saya merasa belum berhasil mengimplementasikan prinsip FIRST dengan baik pada modul kali ini. Dengan demikian, kedepannya saya akan terus menambahkan tests agar dapat mencapai hal tersebut.
 
 </details>
+
+</details>
+<details>
+<summary><b><h2>Modul 4</h2></b></summary>
+
+### TTD
+Menurut saya, pendekatan TTD (Test-Driven Development) memiliki banyak kelebihan dan manfaat. Pada awalnya, saya menghadapi tantangan dalam menciptakan tes sebelum menulis kode, tetapi saya melihat hal ini sebagai peluang untuk mengasah  keterampilan saya. TTD membantu saya meningkatkan keakuratan, ketelitian, memudahkan maintanance, dan membangun alur kerja yang efisien dalam mengembangkan sebuah aplikasi. Saya merasa perlu untuk secara teratur mengevaluasi tes yang saya buat sesperti Unit Tests dan Functional Tests untuk memastikan bahwa mereka berkontribusi secara positif terhadap tujuan keseluruhan aplikasi saya.
+
+### F.I.R.S.T
+Pada modul ini, saya merasa belum berhasil mengimplementasikan prinsip FIRST dengan baik pada modul kali ini. Dengan demikian, kedepannya saya akan terus menambahkan tests agar dapat mencapai hal tersebut.
+
+</details>
