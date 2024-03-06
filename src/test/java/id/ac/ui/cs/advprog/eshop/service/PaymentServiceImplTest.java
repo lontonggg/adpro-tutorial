@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
 import enums.OrderStatus;
+import enums.PaymentMethod;
 import enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
@@ -49,11 +50,11 @@ class PaymentServiceImplTest {
 
         payments = new ArrayList<>();
         Map <String, String> paymentData1 = Map.of("voucherCode", "ESHOP1234ABC5678");
-        Payment payment1 = new Payment("13652556-012a-4c07-b546-54eb1396d79b", "VOUCHER_CODE", paymentData1);
+        Payment payment1 = new Payment("13652556-012a-4c07-b546-54eb1396d79b", PaymentMethod.VOUCHER_CODE.getValue(), paymentData1);
         payments.add(payment1);
 
         Map <String, String> paymentData2 = Map.of("address", "Jakarta Selatan", "deliveryFee", "150000");
-        Payment payment2 = new Payment("13652556-012a-4c07-b546-54eb1396d79b", "CASH_ON_DELIVERY", paymentData2);
+        Payment payment2 = new Payment("13652556-012a-4c07-b546-54eb1396d79b", PaymentMethod.CASH_ON_DELIVERY.getValue(), paymentData2);
         payments.add(payment2);
     }
 
@@ -63,7 +64,7 @@ class PaymentServiceImplTest {
         Payment payment = payments.getFirst();
         doReturn(payment).when(paymentRepository).save(any(Payment.class));
 
-        Payment result = paymentService.addPayment(order, "VOUCHER_CODE", Map.of("voucherCode", "ESHOP1234ABC5678"));
+        Payment result = paymentService.addPayment(order, PaymentMethod.VOUCHER_CODE.getValue(), Map.of("voucherCode", "ESHOP1234ABC5678"));
         verify(paymentRepository, times(1)).save(any(Payment.class));
         assertEquals(payment.getId(), result.getId());
     }

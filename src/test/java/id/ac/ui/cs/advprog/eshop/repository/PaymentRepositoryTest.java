@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
+import enums.PaymentMethod;
 import id.ac.ui.cs.advprog.eshop.model.Payment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,10 +32,10 @@ class PaymentRepositoryTest {
         validCOD.put("deliveryFee", "150000");
         paymentData.add(validCOD);
 
-        Payment paymentVoucher = new Payment("13652556-012a-4c07-b546-54eb1396d79b", "VOUCHER_CODE", paymentData.getFirst());
+        Payment paymentVoucher = new Payment("13652556-012a-4c07-b546-54eb1396d79b", PaymentMethod.VOUCHER_CODE.getValue(), paymentData.getFirst());
         payments.add(paymentVoucher);
 
-        Payment paymentCOD = new Payment("a2c62328-4a37-4664-83c7-f32db8620155", "CASH_ON_DELIVERY", paymentData.get(1));
+        Payment paymentCOD = new Payment("a2c62328-4a37-4664-83c7-f32db8620155", PaymentMethod.CASH_ON_DELIVERY.getValue(), paymentData.get(1));
         payments.add(paymentCOD);
     }
 
@@ -56,7 +57,7 @@ class PaymentRepositoryTest {
         Payment payment = payments.getFirst();
         paymentRepository.save(payment);
 
-        Payment newPayment = new Payment(payment.getId(), "VOUCHER_CODE", paymentData.getFirst());
+        Payment newPayment = new Payment(payment.getId(), PaymentMethod.VOUCHER_CODE.getValue(), paymentData.getFirst());
         Payment savedPayment = paymentRepository.save(newPayment);
 
         Payment paymentFromRepository = paymentRepository.findById(payments.getFirst().getId());
