@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,17 +14,27 @@ import static org.junit.jupiter.api.Assertions.*;
 class PaymentRepositoryTest {
     PaymentRepository paymentRepository;
     List<Payment> payments;
-    Map<String, String> paymentData;
+    List<Map<String, String>> paymentData;
 
     @BeforeEach
     void setUp(){
         paymentRepository = new PaymentRepository();
         payments = new ArrayList<>();
+        paymentData = new ArrayList<>();
 
-        Payment paymentVoucher = new Payment("13652556-012a-4c07-b546-54eb1396d79b", "VOUCHER_CODE", paymentData);
+        Map<String, String> validVoucher = new HashMap<>();
+        validVoucher.put("voucherCode", "ESHOP12345678ABC");
+        paymentData.add(validVoucher);
+
+        Map<String, String> validCOD = new HashMap<>();
+        validCOD.put("address", "Jakarta Selatan");
+        validCOD.put("deliveryFee", "150000");
+        paymentData.add(validCOD);
+
+        Payment paymentVoucher = new Payment("13652556-012a-4c07-b546-54eb1396d79b", "VOUCHER_CODE", paymentData.getFirst());
         payments.add(paymentVoucher);
 
-        Payment paymentCOD = new Payment("a2c62328-4a37-4664-83c7-f32db8620155", "CASH_ON_DELIVERY", paymentData);
+        Payment paymentCOD = new Payment("a2c62328-4a37-4664-83c7-f32db8620155", "CASH_ON_DELIVERY", paymentData.get(1));
         payments.add(paymentCOD);
     }
 
@@ -45,7 +56,7 @@ class PaymentRepositoryTest {
         Payment payment = payments.getFirst();
         paymentRepository.save(payment);
 
-        Payment newPayment = new Payment(payment.getId(), "VOUCHER_CODE", paymentData);
+        Payment newPayment = new Payment(payment.getId(), "VOUCHER_CODE", paymentData.getFirst());
         Payment savedPayment = paymentRepository.save(newPayment);
 
         Payment paymentFromRepository = paymentRepository.findById(payments.getFirst().getId());
